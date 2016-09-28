@@ -36,9 +36,6 @@ class Observer
   def initialize
     @game_objects = []
   end
-  def gameObjects
-    @game_objects
-  end
   def << obj
     if obj.instance_of? Array
       @game_objects.concat obj.flatten.select {|obj| obj.kind_of? Sprite}
