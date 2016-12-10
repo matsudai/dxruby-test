@@ -5,13 +5,19 @@ require 'singleton'
 require 'observer'
 
 class BulletObserver
+  def initialize
+    @bullet_container = BulletContainer.instance
+  end
+  def update bullet
+    @bullet_container.bullets.push bullet
+  end
+end
+
+class BulletContainer
   include Singleton
   attr_accessor :bullets
   def initialize
     @bullets = []
-  end
-  def update bullet
-    @bullets.push bullet
   end
 end
 
@@ -28,7 +34,7 @@ class BulletBuilder
     position = Complex x, y
     velocity = Complex speed_x, speed_y
     @obj = Bullet.new position, velocity
-    add_observer BulletObserver.instance
+    add_observer BulletObserver.new
   end
   def build
     changed true
@@ -40,4 +46,4 @@ end
 BulletBuilder.new(1, 2, 3, 4).build
 BulletBuilder.new(1, 5, 3, 4).build
 
-puts BulletObserver.instance.bullets
+puts BulletContainer.instance.bullets
