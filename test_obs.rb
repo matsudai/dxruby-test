@@ -23,16 +23,16 @@ end
 
 class Bullet
   attr_accessor :position, :velocity
-  def initialize p, v
-    @position, @velocity = p, v
+  def initialize position, velocity
+    position = Complex position[0], position[1] if position.kind_of? Array
+    velocity = Complex velocity[0], velocity[1] if position.kind_of? Array
+    @position, @velocity = position, velocity
   end
 end
 
 class BulletBuilder
   include Observable
-  def initialize x, y, speed_x, speed_y
-    position = Complex x, y
-    velocity = Complex speed_x, speed_y
+  def initialize position, velocity
     @obj = Bullet.new position, velocity
     add_observer BulletObserver.new
   end
@@ -43,7 +43,7 @@ class BulletBuilder
   end
 end
 
-BulletBuilder.new(1, 2, 3, 4).build
-BulletBuilder.new(1, 5, 3, 4).build
+BulletBuilder.new([1, 2], [3, 4]).build
+BulletBuilder.new([1, 5], [3, 4]).build
 
 puts BulletContainer.instance.bullets
